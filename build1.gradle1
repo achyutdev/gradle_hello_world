@@ -1,0 +1,48 @@
+// apply plugin: 'java'
+
+// task wrapper( type: Wrapper){
+//     gradleVersion = '2.6'
+// }
+
+def projectVersion = "1.0.0"
+ext.projectModel ="32342" // can be use many places 
+
+project.task("Task1") 
+
+task("Task2") // we dont have to give project- automatic know top level project
+
+task "Task3"
+
+task Task4
+Task4.description ="Task 4 Description"
+Task4.doLast{
+    println "This is Task 4 last action"
+}
+
+Task3 << {println "This is task 3 last action"} //same as do last
+
+task Task5 << {println "this is task 5"}
+
+Task5 << { println "Another Closure"}
+
+task Task6 {
+    description "This is task 6 description"
+    dependsOn Task5
+    doFirst{
+        println "This is task 6 do first - $projectModel"
+    }
+    doLast{
+        println "This is task 6 do last - version $projectVersion"
+    }
+}
+
+Task6.doFirst{
+    println "Do first task 6"
+}
+Task5.dependsOn Task4
+Task6.dependsOn Task3
+// build phases
+// -- Initialization Phase ( use for multi project build)
+// -- Configuration Phase (description )
+// -- Executaion Phase ( doFirst, doLast)
+

@@ -1,0 +1,41 @@
+task taskA << { println "Task A" }
+task taskB << { println "Task B" }
+task taskC << { println "Task C" }
+task taskD << { println "Task D" }
+task taskE << { println "Task E" }
+task taskF << { println "Task F" }
+
+taskA.dependsOn taskB
+taskA.dependsOn taskD, taskC
+
+taskC.dependsOn taskE
+taskD.dependsOn taskE
+
+taskA.dependsOn taskE
+
+task taskG{
+    dependsOn taskE
+    doLast{
+        println "Task G"
+    }
+}
+
+taskA.dependsOn taskG
+
+
+// other dependencies
+
+taskB.mustRunAfter taskC, taskD
+taskB.shouldRunAfter taskB // no problem with circular dependencies
+
+taskE.finalizedBy taskF 
+// Normal use case are - db migration - e.g. run all the config and then run command to 
+//finalize 
+// in this case run taskE after completion it run taskF  
+
+
+
+task task1 << {println "task 1"}
+task task2 << {println "task 2"}
+
+task2.mustRunAfter task1

@@ -1,0 +1,46 @@
+
+apply plugin: 'java'
+apply plugin: 'application'
+sourceSets {
+    main{
+        java{
+            srcDir 'src'
+        }
+    }
+    test {
+        java{
+            srcDir 'test/src'
+        }
+    }
+}
+repositories {
+    jcenter()
+}
+
+dependencies {
+//   compile files ('lib/log4j-1.2.8.jar', 'lib/junit-3.8.1.jar')
+compile group:'log4j', name: 'log4j', version:'1.2.8'
+compile 'junit:junit:4.12'  
+}
+
+test{
+    // filter{
+    //     includeTestsMatching 'com.pluralsight.security.TestCreateStreams.testWhenInputfileDoesExist'
+    // }
+}
+
+task singleTest(type: Test){
+    dependsOn testClasses
+    filter{
+         includeTestsMatching 'com.pluralsight.security.TestCreateStreams.testWhenInputFileDoesExist'
+    }
+}
+task wrapper(type:Wrapper)
+
+run{
+    if(project.hasProperty('args')){
+        args project.args.split('\\s')
+    }
+}
+
+mainClassName ='com.pluralsight.security.Hash'

@@ -1,0 +1,4 @@
+<resource-ref>
+    <res-ref-name>$resourceRefName</res-ref-name>
+    <otherTag>No use</other>
+</resource-ref>
